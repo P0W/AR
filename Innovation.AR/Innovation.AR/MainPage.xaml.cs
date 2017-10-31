@@ -2,6 +2,7 @@
 using Sockets.Plugin.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -50,25 +51,6 @@ namespace Innovation.AR
 
         }
 
-
-        async void RequestProcessor(object sender, TcpSocketListenerConnectEventArgs args)
-        {
-            var client = args.SocketClient;
-
-            var bytesRead = -1;
-            var buf = new byte[1];
-
-            while (bytesRead != 0)
-            {
-                bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1);
-                if (bytesRead > 0)
-                {
-                    //Debug.Write(buf[0]);
-                }
-            }
-        }
-
-
         private void TapColorPicker_Tapped(object sender, EventArgs e)
         {
             settingsColorPicker.Focus();
@@ -98,7 +80,11 @@ namespace Innovation.AR
                     bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
                     if (bytesRead > 0)
                     {
-                        //Console.Write("Read Bytes {0}", Encoding.UTF8.GetString(buf));
+                        var colorVal = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
+                        if (colorDict.ContainsKey(colorVal))
+                        {
+                            sitAw.ColorValue = colorDict[colorVal];
+                        }
                     }
                     // Debug.Write(buf[0]);
                 }
