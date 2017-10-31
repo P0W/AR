@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Innovation.AR"
+             x:Class="Innovation.AR.MainPage"
+             BackgroundColor="Black"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Yellow" />
+                <Setter Property="FontSize" Value="Large" />
+            </Style>
+            <Style x:Key="fieldStyle" TargetType="Label">
+                <Setter Property="TextColor">
+                    <OnPlatform x:TypeArguments="Color" iOS="White" Android="DarkGreen" WinPhone="White" />
+                </Setter>
+                <Setter Property="FontSize" Value="24" />
+               
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="230"  />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="SituationAwarness"  Opacity="0.8" Grid.Row="0"  BackgroundColor="{ Binding ColorValue }" 
+                  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,100,0,0"  RotationY="180" >
+                
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="150"  />
+                    <ColumnDefinition Width="150"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapColorPicker_Tapped" CommandParameter="1"/>
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+
+                <Picker x:Name="settingsColorPicker" 
+                    SelectedIndexChanged="Picker_SelectedIndexChanged" IsVisible="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                
+                <Label Text="Radar Altitude"  Style="{StaticResource labelStyle}" Grid.Row ="0" Grid.Column="0"  />
+                <Label Text="{Binding RadarAltitude }"  Style="{StaticResource fieldStyle}" Grid.Row ="0" Grid.Column="1" />
+
+                <Label Text="Master Time"   Style="{StaticResource labelStyle}"  Grid.Row ="1" Grid.Column="0"  />
+                <Label Text="{Binding MasterTime}"  Style="{StaticResource fieldStyle}"  Grid.Row ="1" Grid.Column="1" />
+
+                <Label Text="Time To Drop" Style="{StaticResource labelStyle}" Grid.Row ="2" Grid.Column="0"  />
+                <Label Text="{Binding TimeToDrop}"    Style="{StaticResource fieldStyle}" Grid.Row ="2" Grid.Column="1" />
+
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
