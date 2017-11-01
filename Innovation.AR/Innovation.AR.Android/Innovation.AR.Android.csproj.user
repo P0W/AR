@@ -2,6 +2,6 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SelectedDevice>LGE Nexus 5</SelectedDevice>
-    <DefaultDevice>Nexus_5X_API_26_x86</DefaultDevice>
+    <DefaultDevice>Nexus_5_AVD</DefaultDevice>
   </PropertyGroup>
 </Project>
