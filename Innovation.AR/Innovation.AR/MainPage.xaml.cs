@@ -1,9 +1,12 @@
-﻿using Sockets.Plugin;
+﻿using Plugin.TextToSpeech;
+using Plugin.TextToSpeech.Abstractions;
+using Sockets.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 
 namespace Innovation.AR
 {
@@ -26,7 +29,7 @@ namespace Innovation.AR
 
         };
 
-
+        static CrossLocale? locale = null;
 
         public MainPage()
         {
@@ -79,12 +82,48 @@ namespace Innovation.AR
                         ARModel.GetInstance.AirdropPhase = buf[0] - '0';
 
                     }
-                    
+
                 }
             };
 
             // bind to the listen port across all interfaces
             await listener.StartListeningAsync(listenPort);
+
+
+
+            var speechListenPort = 13000;
+            var speechlistener = new TcpSocketListener();
+
+
+            speechlistener.ConnectionReceived += async (sender, args) =>
+            {
+                var client = args.SocketClient;
+
+                var bytesRead = -1;
+                var buf = new byte[1024];
+
+                while (bytesRead != 0)
+                {
+                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
+                    if (bytesRead > 0)
+                    {
+                        var text = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
+
+                        await CrossTextToSpeech.Current.Speak(text);
+
+                        //await CrossTextToSpeech.Current.Speak(text,
+                        //    pitch: 0.5f,
+                        //    speakRate: 0.5f,
+                        //    volume: 0.5f,
+                        //    crossLocale: locale);
+
+                    }
+
+                }
+            };
+
+            // bind to the listen port across all interfaces
+            await speechlistener.StartListeningAsync(speechListenPort);
         }
     }
 }
