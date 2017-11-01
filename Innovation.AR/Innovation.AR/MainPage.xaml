@@ -14,10 +14,10 @@
             </Style>
             <Style x:Key="fieldStyle" TargetType="Label">
                 <Setter Property="TextColor">
-                    <OnPlatform x:TypeArguments="Color" iOS="White" Android="DarkGreen" WinPhone="White" />
+                    <OnPlatform x:TypeArguments="Color" iOS="White" Android="White" WinPhone="White" />
                 </Setter>
                 <Setter Property="FontSize" Value="24" />
-               
+
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -31,9 +31,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid x:Name="SituationAwarness"  Opacity="0.8" Grid.Row="0"  BackgroundColor="{ Binding ColorValue }" 
-                  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,100,0,0"  RotationY="180" >
-                
+
+            <Grid x:Name="SituationAwarness"  Opacity="0.8" Grid.Row="0"   BackgroundColor="{Binding SituationAwarenessContext.ColorValue }" 
+                  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,100,0,0"  RotationY="180"  >
+
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="150"  />
                     <ColumnDefinition Width="150"/>
@@ -44,25 +45,30 @@
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
 
-                <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3"   >
                     <ContentView.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapColorPicker_Tapped" CommandParameter="1"/>
+                      
+                        <TapGestureRecognizer Tapped="TapColorPicker_Tapped" NumberOfTapsRequired="1" CommandParameter="1" />
                     </ContentView.GestureRecognizers>
                 </ContentView>
 
+     
                 <Picker x:Name="settingsColorPicker" 
                     SelectedIndexChanged="Picker_SelectedIndexChanged" IsVisible="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
-                
+
                 <Label Text="Radar Altitude"  Style="{StaticResource labelStyle}" Grid.Row ="0" Grid.Column="0"  />
-                <Label Text="{Binding RadarAltitude }"  Style="{StaticResource fieldStyle}" Grid.Row ="0" Grid.Column="1" />
+                <Label Text="{Binding SituationAwarenessContext.RadarAltitude }"  Style="{StaticResource fieldStyle}" Grid.Row ="0" Grid.Column="1" />
 
                 <Label Text="Master Time"   Style="{StaticResource labelStyle}"  Grid.Row ="1" Grid.Column="0"  />
-                <Label Text="{Binding MasterTime}"  Style="{StaticResource fieldStyle}"  Grid.Row ="1" Grid.Column="1" />
+                <Label Text="{Binding SituationAwarenessContext.MasterTime}"  Style="{StaticResource fieldStyle}"  Grid.Row ="1" Grid.Column="1" />
 
                 <Label Text="Time To Drop" Style="{StaticResource labelStyle}" Grid.Row ="2" Grid.Column="0"  />
-                <Label Text="{Binding TimeToDrop}"    Style="{StaticResource fieldStyle}" Grid.Row ="2" Grid.Column="1" />
+                <Label Text="{Binding SituationAwarenessContext.TimeToDrop}"    Style="{StaticResource fieldStyle}" Grid.Row ="2" Grid.Column="1" />
 
             </Grid>
+
+            <local:AirdropLights Grid.Row="1" Grid.Column="0"    Padding="10,0,0,0" AirdropPhase="{ Binding AirdropPhase}" HorizontalOptions="FillAndExpand"/>
+
         </Grid>
 
     </ContentPage.Content>

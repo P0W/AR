@@ -1,13 +1,13 @@
 ﻿using Sockets.Plugin;
-using Sockets.Plugin.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Innovation.AR
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
         Dictionary<string, string> colorDict = new Dictionary<string, string>()
@@ -26,29 +26,19 @@ namespace Innovation.AR
 
         };
 
-        private static SituationAwareness sitAw;
+
 
         public MainPage()
         {
             InitializeComponent();
-            sitAw = new SituationAwareness();
-            BindingContext = sitAw;
+
+            BindingContext = ARModel.GetInstance;
 
             // populate picker with available colors
             foreach (string colorName in colorDict.Keys)
             {
                 settingsColorPicker.Items.Add(colorName);
             }
-
-
-            //listener = new TcpSocketListener();
-
-
-
-            // when we get connections, read byte-by-byte from the socket's read stream
-            // listener.ConnectionReceived += RequestProcessor;
-
-
         }
 
         private void TapColorPicker_Tapped(object sender, EventArgs e)
@@ -59,7 +49,7 @@ namespace Innovation.AR
         private void Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker)sender;
-            sitAw.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
+            ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
         }
 
         protected override async void OnAppearing()
@@ -83,10 +73,13 @@ namespace Innovation.AR
                         var colorVal = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
                         if (colorDict.ContainsKey(colorVal))
                         {
-                            sitAw.ColorValue = colorDict[colorVal];
+                            //ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[colorVal];
                         }
+
+                        ARModel.GetInstance.AirdropPhase = buf[0] - '0';
+
                     }
-                    // Debug.Write(buf[0]);
+                    
                 }
             };
 
