@@ -18,6 +18,8 @@ namespace Innovation.AR
         private ARModel()
         {
             _airdropPhase = 0;
+            _uldEnabled = true;
+            _casEnabled = true;
             Initialise();
         }
 
@@ -37,6 +39,7 @@ namespace Innovation.AR
         }
 
 
+        #region Properties
         private int _airdropPhase;
         public int AirdropPhase
         {
@@ -51,6 +54,37 @@ namespace Innovation.AR
                 OnPropertyChanged();
             }
         }
+
+        private bool _casEnabled;
+        public bool CasEnabled
+        {
+            get
+            {
+                return _casEnabled;
+            }
+
+            set
+            {
+                _casEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _uldEnabled;
+        public bool UldEnabled
+        {
+            get
+            {
+                return _uldEnabled;
+            }
+
+            set
+            {
+                _uldEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
 
         internal static ARModel GetInstance
         {

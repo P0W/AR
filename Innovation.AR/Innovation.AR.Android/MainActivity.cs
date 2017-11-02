@@ -9,7 +9,9 @@ using Android.OS;
 
 namespace Innovation.AR.Droid
 {
-    [Activity(Label = "Innovation.AR", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Innovation.AR", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true,
+        ScreenOrientation = ScreenOrientation.Landscape,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -21,6 +23,9 @@ namespace Innovation.AR.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
+
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Plugin.TextToSpeech;
-using Plugin.TextToSpeech.Abstractions;
 using Sockets.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -29,7 +29,12 @@ namespace Innovation.AR
 
         };
 
-        static CrossLocale? locale = null;
+        private TcpSocketListener airdropListener = null;
+        private TcpSocketListener casListener = null;
+        private TcpSocketListener speechListener = null;
+        private TcpSocketListener uldListener = null;
+
+        //static CrossLocale? locale = null;
 
         public MainPage()
         {
@@ -55,13 +60,13 @@ namespace Innovation.AR
             ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
         }
 
-        protected override async void OnAppearing()
+        private async Task CreateAirdropListener()
         {
             var listenPort = 12000;
-            var listener = new TcpSocketListener();
+            airdropListener = new TcpSocketListener();
 
             // when we get connections, read byte-by-byte from the socket's read stream
-            listener.ConnectionReceived += async (sender, args) =>
+            airdropListener.ConnectionReceived += async (sender, args) =>
             {
                 var client = args.SocketClient;
 
@@ -87,15 +92,17 @@ namespace Innovation.AR
             };
 
             // bind to the listen port across all interfaces
-            await listener.StartListeningAsync(listenPort);
+            await airdropListener.StartListeningAsync(listenPort);
+        }
 
 
-
+        private async Task CreateTextToSpeechListener()
+        {
             var speechListenPort = 13000;
-            var speechlistener = new TcpSocketListener();
+            speechListener = new TcpSocketListener();
 
 
-            speechlistener.ConnectionReceived += async (sender, args) =>
+            speechListener.ConnectionReceived += async (sender, args) =>
             {
                 var client = args.SocketClient;
 
@@ -110,12 +117,34 @@ namespace Innovation.AR
                         var text = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
 
                         await CrossTextToSpeech.Current.Speak(text);
+                    }
 
-                        //await CrossTextToSpeech.Current.Speak(text,
-                        //    pitch: 0.5f,
-                        //    speakRate: 0.5f,
-                        //    volume: 0.5f,
-                        //    crossLocale: locale);
+                }
+            };
+
+            // bind to the listen port across all interfaces
+            await speechListener.StartListeningAsync(speechListenPort);
+        }
+
+        private async Task CreateUldListener()
+        {
+            var listenPort = 14000;
+            uldListener = new TcpSocketListener();
+
+            // when we get connections, read byte-by-byte from the socket's read stream
+            uldListener.ConnectionReceived += async (sender, args) =>
+            {
+                var client = args.SocketClient;
+
+                var bytesRead = -1;
+                var buf = new byte[1024];
+
+                while (bytesRead != 0)
+                {
+                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
+                    if (bytesRead > 0)
+                    {
+                        ARModel.GetInstance.UldEnabled = buf[0] - '0' != 0;
 
                     }
 
@@ -123,7 +152,44 @@ namespace Innovation.AR
             };
 
             // bind to the listen port across all interfaces
-            await speechlistener.StartListeningAsync(speechListenPort);
+            await uldListener.StartListeningAsync(listenPort);
+        }
+
+        private async Task CreateCasListener()
+        {
+            var listenPort = 15000;
+            casListener = new TcpSocketListener();
+
+            // when we get connections, read byte-by-byte from the socket's read stream
+            casListener.ConnectionReceived += async (sender, args) =>
+            {
+                var client = args.SocketClient;
+
+                var bytesRead = -1;
+                var buf = new byte[1024];
+
+                while (bytesRead != 0)
+                {
+                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
+                    if (bytesRead > 0)
+                    {
+                        ARModel.GetInstance.CasEnabled = buf[0] - '0' != 0;
+
+                    }
+
+                }
+            };
+
+            // bind to the listen port across all interfaces
+            await casListener.StartListeningAsync(listenPort);
+        }
+
+        protected async override void OnAppearing()
+        {
+            await CreateAirdropListener();
+            await CreateTextToSpeechListener();
+            await CreateUldListener();
+            await CreateCasListener();
         }
     }
 }

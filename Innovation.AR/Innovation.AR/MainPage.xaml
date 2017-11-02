@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Innovation.AR"
              x:Class="Innovation.AR.MainPage"
              BackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False"
              >
 
     <ContentPage.Resources>
@@ -11,13 +12,14 @@
             <Style x:Key="labelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="Yellow" />
                 <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontAttributes" Value="Bold" />
             </Style>
             <Style x:Key="fieldStyle" TargetType="Label">
                 <Setter Property="TextColor">
                     <OnPlatform x:TypeArguments="Color" iOS="White" Android="White" WinPhone="White" />
                 </Setter>
-                <Setter Property="FontSize" Value="24" />
-
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontAttributes" Value="Bold" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -27,49 +29,96 @@
 
         <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition Height="230"  />
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="25*"  />
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*" />
+                <RowDefinition Height="25*" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="19*" />
+                <ColumnDefinition Width="27*" />
+                <ColumnDefinition Width="27*" />
+                <ColumnDefinition Width="27*" />
+            </Grid.ColumnDefinitions>
+
+            <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"    >
+                <ContentView.GestureRecognizers>
+
+                    <TapGestureRecognizer Tapped="TapColorPicker_Tapped" NumberOfTapsRequired="1" CommandParameter="1" />
+                </ContentView.GestureRecognizers>
+            </ContentView>
 
 
-            <Grid x:Name="SituationAwarness"  Opacity="0.8" Grid.Row="0"   BackgroundColor="{Binding SituationAwarenessContext.ColorValue }" 
-                  VerticalOptions="Center" HorizontalOptions="Center" Margin="0,100,0,0"  RotationY="180"  >
+            <Picker x:Name="settingsColorPicker" 
+                    SelectedIndexChanged="Picker_SelectedIndexChanged" IsVisible="False" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" />
 
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="150"  />
-                    <ColumnDefinition Width="150"/>
+            <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"  Grid.RowSpan="2" Padding="0, 10, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
 
-                <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3"   >
-                    <ContentView.GestureRecognizers>
-                      
-                        <TapGestureRecognizer Tapped="TapColorPicker_Tapped" NumberOfTapsRequired="1" CommandParameter="1" />
-                    </ContentView.GestureRecognizers>
-                </ContentView>
+                <Label Text="Radar Altitude"  Style="{StaticResource labelStyle}" Grid.Column="0"  />
+                <Label Text="{Binding SituationAwarenessContext.RadarAltitude }"  Style="{StaticResource fieldStyle}"  Grid.Column="1" />
 
-     
-                <Picker x:Name="settingsColorPicker" 
-                    SelectedIndexChanged="Picker_SelectedIndexChanged" IsVisible="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                <Label Text="Master Time"   Style="{StaticResource labelStyle}"  Grid.Column="2"  />
+                <Label Text="{Binding SituationAwarenessContext.MasterTime}"  Style="{StaticResource fieldStyle}"  Grid.Column="3" />
 
-                <Label Text="Radar Altitude"  Style="{StaticResource labelStyle}" Grid.Row ="0" Grid.Column="0"  />
-                <Label Text="{Binding SituationAwarenessContext.RadarAltitude }"  Style="{StaticResource fieldStyle}" Grid.Row ="0" Grid.Column="1" />
-
-                <Label Text="Master Time"   Style="{StaticResource labelStyle}"  Grid.Row ="1" Grid.Column="0"  />
-                <Label Text="{Binding SituationAwarenessContext.MasterTime}"  Style="{StaticResource fieldStyle}"  Grid.Row ="1" Grid.Column="1" />
-
-                <Label Text="Time To Drop" Style="{StaticResource labelStyle}" Grid.Row ="2" Grid.Column="0"  />
-                <Label Text="{Binding SituationAwarenessContext.TimeToDrop}"    Style="{StaticResource fieldStyle}" Grid.Row ="2" Grid.Column="1" />
+                <Label Text="Time To Drop" Style="{StaticResource labelStyle}" Grid.Column="4"  />
+                <Label Text="{Binding SituationAwarenessContext.TimeToDrop}"    Style="{StaticResource fieldStyle}" Grid.Column="5" />
 
             </Grid>
 
-            <local:AirdropLights Grid.Row="1" Grid.Column="0"    Padding="10,0,0,0" AirdropPhase="{ Binding AirdropPhase}" HorizontalOptions="FillAndExpand"/>
+
+            <local:AirdropLights Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" Padding="20,20,0,0" AirdropPhase="{ Binding AirdropPhase}" />
+
+            <Grid Grid.Row="3" Grid.Column="0"  Padding="20, -20, 0, 0" IsVisible="{Binding CasEnabled}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                </Grid.RowDefinitions>
+
+
+                <Label Text="CHADCS FAIL" BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
+                <Label Text="LVAD FAIL" BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
+                <Label Text="AIRDROP FAIL" BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
+                <Label Text="SAFE MODE ON" BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Padding="20, -20, 0, 0" IsVisible="{Binding UldEnabled}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView Grid.Column="0" HorizontalOptions="FillAndExpand" Color="Blue"  />
+                <Label Grid.Column="0" Text="Pallet -1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
+
+                <BoxView Grid.Column="1" HorizontalOptions="FillAndExpand" Color="Gray" />
+                <Label Grid.Column="1" Text="Bulk-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
+
+                <BoxView Grid.Column="2" HorizontalOptions="FillAndExpand" Color="Green" />
+                <Label Grid.Column="2" Text="CDS-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
+
+                <BoxView Grid.Column="3" HorizontalOptions="FillAndExpand" Color="BurlyWood" />
+                <Label Grid.Column="3" Text="Platform-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
+
+                <BoxView Grid.Column="4" HorizontalOptions="FillAndExpand" Color="Blue" />
+                <Label Grid.Column="4" Text="Pallet -2" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
+
+            </Grid>
 
         </Grid>
+
 
     </ContentPage.Content>
 </ContentPage>
