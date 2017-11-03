@@ -13,6 +13,7 @@
                 <Setter Property="TextColor" Value="Yellow" />
                 <Setter Property="FontSize" Value="Large" />
                 <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="RotationY" Value="180" />
             </Style>
             <Style x:Key="fieldStyle" TargetType="Label">
                 <Setter Property="TextColor">
@@ -20,6 +21,7 @@
                 </Setter>
                 <Setter Property="FontSize" Value="Large" />
                 <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="RotationY" Value="180" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -85,10 +87,10 @@
                 </Grid.RowDefinitions>
 
 
-                <Label Text="CHADCS FAIL" BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
-                <Label Text="LVAD FAIL" BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
-                <Label Text="AIRDROP FAIL" BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
-                <Label Text="SAFE MODE ON" BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
+                <Label Text="CHADCS FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
+                <Label Text="LVAD FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
+                <Label Text="AIRDROP FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
+                <Label Text="SAFE MODE ON" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
             </Grid>
 
             <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Padding="20, -20, 0, 0" IsVisible="{Binding UldEnabled}">
