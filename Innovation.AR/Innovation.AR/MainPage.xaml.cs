@@ -1,4 +1,5 @@
-﻿using Plugin.TextToSpeech;
+﻿using Newtonsoft.Json;
+using Plugin.TextToSpeech;
 using Sockets.Plugin;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ namespace Innovation.AR
         public MainPage()
         {
             InitializeComponent();
+
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
 
             BindingContext = ARModel.GetInstance;
 
@@ -116,6 +119,7 @@ namespace Innovation.AR
                     {
                         var text = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
 
+                        //ARModel m = JsonConvert.DeserializeObject<ARModel>(text);
                         await CrossTextToSpeech.Current.Speak(text);
                     }
 

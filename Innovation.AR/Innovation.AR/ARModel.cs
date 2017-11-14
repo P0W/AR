@@ -50,8 +50,11 @@ namespace Innovation.AR
 
             set
             {
-                _airdropPhase = value;
-                OnPropertyChanged();
+                if (value != _airdropPhase)
+                {
+                    _airdropPhase = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -65,8 +68,11 @@ namespace Innovation.AR
 
             set
             {
-                _casEnabled = value;
-                OnPropertyChanged();
+                if (value != _casEnabled)
+                {
+                    _casEnabled = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -80,13 +86,16 @@ namespace Innovation.AR
 
             set
             {
-                _uldEnabled = value;
-                OnPropertyChanged();
+                if (value != _uldEnabled)
+                {
+                    _uldEnabled = value;
+                    OnPropertyChanged();
+                }
             }
         }
         #endregion
 
-        internal static ARModel GetInstance
+        public static ARModel GetInstance
         {
             get
             {

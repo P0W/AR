@@ -54,26 +54,31 @@ namespace Innovation.AR
                 paint.Color = redState;
                 paint.Style = redState != IDLE_COLOR ? SKPaintStyle.StrokeAndFill : SKPaintStyle.Stroke;
 
+                // Some goofy geometry
+
+                float Th = 0.62f * info.Height - 0.67f * info.Width;
+                float x = 0.035f * info.Height;  // 3.5 percentage of height gap
+
                 using (SKPath path = new SKPath())
                 {
 
-                    path.MoveTo(0, 200);
-                    path.LineTo(100, 0);
-                    path.LineTo(200, 200);
-                    path.LineTo(0, 200);
+                    path.MoveTo(0, Th);
+                    path.LineTo(info.Width / 2, 0);
+                    path.LineTo(info.Width, Th);
+                    path.LineTo(0, Th);
                     path.Close();
                     canvas.DrawPath(path, paint);
 
                 }
 
-                SKRect middleRect = new SKRect(0, 225, 200, 325);
+                SKRect middleRect = new SKRect(0, Th + x, info.Width, x + 1.5f * Th);
                 paint.Color = yellowState;
                 paint.Style = yellowState != IDLE_COLOR ? SKPaintStyle.StrokeAndFill : SKPaintStyle.Stroke;
                 canvas.DrawRect(middleRect, paint);
 
                 paint.Color = greenState;
                 paint.Style = greenState != IDLE_COLOR ? SKPaintStyle.StrokeAndFill : SKPaintStyle.Stroke;
-                canvas.DrawCircle(100.0f, 450.0f, 100.0f, paint);
+                canvas.DrawCircle(info.Width / 2.0f, 1.5f * Th + 2.0f * x + info.Width / 2.0f, info.Width / 2.0f, paint);
 
 
             }

@@ -78,7 +78,7 @@
 
             <local:AirdropLights Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" Padding="20,20,0,0" AirdropPhase="{ Binding AirdropPhase}" />
 
-            <Grid Grid.Row="3" Grid.Column="0"  Padding="20, -20, 0, 0" IsVisible="{Binding CasEnabled}">
+            <Grid Grid.Row="3" Grid.Column="0"  Padding="20, 0, 0, 0" IsVisible="{Binding CasEnabled}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25*" />
                     <RowDefinition Height="25*" />
