@@ -14,6 +14,9 @@ namespace Innovation.AR.Droid
 
         private static ARModel instance = null;
 
+        private static int keyUpPresscounter = 0;
+        private static int keyDownPresscounter = 0;
+
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -46,13 +49,26 @@ namespace Innovation.AR.Droid
         {
             if (keyCode == Keycode.VolumeDown)
             {
-                instance.AirdropPhase = 2;
-                return true;
+
+                keyUpPresscounter++;
+
+                if (keyUpPresscounter == 4)
+                {
+                    instance.CasEnabled = !instance.CasEnabled;
+                    keyUpPresscounter = 0;
+                }
+
             }
 
             if (keyCode == Keycode.VolumeUp)
             {
-                return true;
+                keyDownPresscounter++;
+
+                if (keyDownPresscounter == 4)
+                {
+                    instance.UldEnabled = !instance.UldEnabled;
+                    keyDownPresscounter = 0;
+                }
             }
             return true; /*base.OnKeyUp(keyCode, e);*/
         }
@@ -61,12 +77,12 @@ namespace Innovation.AR.Droid
         {
             if (keyCode == Keycode.VolumeDown)
             {
-                return true;
+                keyUpPresscounter++;
             }
 
             if (keyCode == Keycode.VolumeUp)
             {
-                return true;
+                keyDownPresscounter++;
             }
             return true; /*base.OnKeyDown(keyCode, e);*/
         }
