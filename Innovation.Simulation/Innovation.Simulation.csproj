@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model.cs" />
     <Compile Include="SimulationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Innovation.AR\Innovation.AR\Innovation.AR.csproj">
+      <Project>{09464998-048c-4c90-9baa-d4f87ba6bdee}</Project>
+      <Name>Innovation.AR</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

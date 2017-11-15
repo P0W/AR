@@ -4,6 +4,7 @@ using Sockets.Plugin;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
+using Innovation.AR;
 
 namespace Innovation.Simulation
 {
@@ -12,8 +13,11 @@ namespace Innovation.Simulation
 
         private static Timer myTimer = new Timer();
         private TcpSocketClient client = new TcpSocketClient();
-        private Model myModel = new Model();
+        private DataModel myModel = new DataModel();
         private int numCasEnabled = 0;
+
+        private string tcpserverAddress = "127.0.0.1";
+        private int tcpServerPort = 12000;
 
         public SimulationForm()
         {
@@ -24,9 +28,10 @@ namespace Innovation.Simulation
             myTimer.Interval = 1000;
             myTimer.Start();
 
-            var port = 12000;
-            var address = "127.0.0.1";
-            client.ConnectAsync(address, port);
+            tcpAddress.Text = tcpserverAddress;
+            tcpPort.Text = tcpServerPort.ToString();
+
+
 
         }
 
@@ -106,9 +111,20 @@ namespace Innovation.Simulation
 
         private async void casEnabled(CheckBox ch)
         {
-            numCasEnabled += ch.Checked ? 1 : -1;
+            if (ch.Checked)
+            {
+                myModel.casMsgList.Add(ch.Text);
+                myModel.textToSpeech = ch.Text;
+                numCasEnabled++;
 
-            myModel.casEnabled = numCasEnabled >= 0;
+            }
+            else
+            {
+                myModel.casMsgList.Remove(ch.Text);
+                numCasEnabled--;
+            }
+
+            myModel.casEnabled = numCasEnabled > 0;
             await Send();
         }
 
@@ -130,6 +146,39 @@ namespace Innovation.Simulation
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
             casEnabled(sender as CheckBox);
+        }
+
+        private void loadMasterTextToSpeech_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tCPDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tcpPanel.Visible = true;
+        }
+
+        private void tcpAddress_TextChanged(object sender, EventArgs e)
+        {
+            tcpserverAddress = tcpAddress.Text;
+        }
+
+        private void tcpPort_TextChanged(object sender, EventArgs e)
+        {
+            tcpServerPort = int.Parse(tcpPort.Text);
+        }
+
+        private async void tcpConfirm_Click(object sender, EventArgs e)
+        {
+            tcpPanel.Visible = false;
+
+            await client.ConnectAsync(tcpserverAddress, tcpServerPort);
+        }
+
+        private async void sendTextForSpeech_Click(object sender, EventArgs e)
+        {
+            myModel.textToSpeech = loadMasterTextToSpeech.Text;
+            await Send();
         }
     }
 

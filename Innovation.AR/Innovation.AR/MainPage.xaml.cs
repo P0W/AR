@@ -30,18 +30,16 @@ namespace Innovation.AR
 
         };
 
-        private TcpSocketListener airdropListener = null;
-        private TcpSocketListener casListener = null;
-        private TcpSocketListener speechListener = null;
-        private TcpSocketListener uldListener = null;
 
-        //static CrossLocale? locale = null;
+        private TcpSocketListener jsonTcpListener = null;
+        private DataModel myModel = null;
+
 
         public MainPage()
         {
             InitializeComponent();
 
-            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);
 
             BindingContext = ARModel.GetInstance;
 
@@ -63,13 +61,14 @@ namespace Innovation.AR
             ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
         }
 
-        private async Task CreateAirdropListener()
-        {
-            var listenPort = 12000;
-            airdropListener = new TcpSocketListener();
 
-            // when we get connections, read byte-by-byte from the socket's read stream
-            airdropListener.ConnectionReceived += async (sender, args) =>
+        private async Task CreateJsonTcpListener()
+        {
+            var speechListenPort = 12000;
+            jsonTcpListener = new TcpSocketListener();
+
+
+            jsonTcpListener.ConnectionReceived += async (sender, args) =>
             {
                 var client = args.SocketClient;
 
@@ -81,13 +80,11 @@ namespace Innovation.AR
                     bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
                     if (bytesRead > 0)
                     {
-                        var colorVal = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
-                        if (colorDict.ContainsKey(colorVal))
-                        {
-                            //ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[colorVal];
-                        }
+                        var text = Encoding.UTF8.GetString(buf, 0, bytesRead);
 
-                        ARModel.GetInstance.AirdropPhase = buf[0] - '0';
+                        myModel = JsonConvert.DeserializeObject<DataModel>(text);
+
+                        await UpdateUI();
 
                     }
 
@@ -95,105 +92,21 @@ namespace Innovation.AR
             };
 
             // bind to the listen port across all interfaces
-            await airdropListener.StartListeningAsync(listenPort);
+            await jsonTcpListener.StartListeningAsync(speechListenPort);
         }
 
-
-        private async Task CreateTextToSpeechListener()
+        private async Task UpdateUI()
         {
-            var speechListenPort = 13000;
-            speechListener = new TcpSocketListener();
+            ARModel.GetInstance.CasEnabled = myModel.casEnabled;
+            ARModel.GetInstance.AirdropPhase = myModel.airdropLight;
+            ARModel.GetInstance.UldEnabled = myModel.uldEnabled;
 
-
-            speechListener.ConnectionReceived += async (sender, args) =>
-            {
-                var client = args.SocketClient;
-
-                var bytesRead = -1;
-                var buf = new byte[1024];
-
-                while (bytesRead != 0)
-                {
-                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
-                    if (bytesRead > 0)
-                    {
-                        var text = UTF8Encoding.UTF8.GetString(buf, 0, bytesRead);
-
-                        //ARModel m = JsonConvert.DeserializeObject<ARModel>(text);
-                        await CrossTextToSpeech.Current.Speak(text);
-                    }
-
-                }
-            };
-
-            // bind to the listen port across all interfaces
-            await speechListener.StartListeningAsync(speechListenPort);
-        }
-
-        private async Task CreateUldListener()
-        {
-            var listenPort = 14000;
-            uldListener = new TcpSocketListener();
-
-            // when we get connections, read byte-by-byte from the socket's read stream
-            uldListener.ConnectionReceived += async (sender, args) =>
-            {
-                var client = args.SocketClient;
-
-                var bytesRead = -1;
-                var buf = new byte[1024];
-
-                while (bytesRead != 0)
-                {
-                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
-                    if (bytesRead > 0)
-                    {
-                        ARModel.GetInstance.UldEnabled = buf[0] - '0' != 0;
-
-                    }
-
-                }
-            };
-
-            // bind to the listen port across all interfaces
-            await uldListener.StartListeningAsync(listenPort);
-        }
-
-        private async Task CreateCasListener()
-        {
-            var listenPort = 15000;
-            casListener = new TcpSocketListener();
-
-            // when we get connections, read byte-by-byte from the socket's read stream
-            casListener.ConnectionReceived += async (sender, args) =>
-            {
-                var client = args.SocketClient;
-
-                var bytesRead = -1;
-                var buf = new byte[1024];
-
-                while (bytesRead != 0)
-                {
-                    bytesRead = await args.SocketClient.ReadStream.ReadAsync(buf, 0, 1024);
-                    if (bytesRead > 0)
-                    {
-                        ARModel.GetInstance.CasEnabled = buf[0] - '0' != 0;
-
-                    }
-
-                }
-            };
-
-            // bind to the listen port across all interfaces
-            await casListener.StartListeningAsync(listenPort);
+            await CrossTextToSpeech.Current.Speak(myModel.textToSpeech);
         }
 
         protected async override void OnAppearing()
         {
-            await CreateAirdropListener();
-            await CreateTextToSpeechListener();
-            await CreateUldListener();
-            await CreateCasListener();
+            await CreateJsonTcpListener();
         }
     }
 }
