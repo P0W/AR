@@ -100,6 +100,8 @@ namespace Innovation.AR
             ARModel.GetInstance.CasEnabled = myModel.casEnabled;
             ARModel.GetInstance.AirdropPhase = myModel.airdropLight;
             ARModel.GetInstance.UldEnabled = myModel.uldEnabled;
+            ARModel.GetInstance.SituationAwarenessContext.TimeToDrop = myModel.timeToDrop;
+            ARModel.GetInstance.SituationAwarenessContext.RadarAltitude = myModel.radarAltitude;
 
             await CrossTextToSpeech.Current.Speak(myModel.textToSpeech);
         }

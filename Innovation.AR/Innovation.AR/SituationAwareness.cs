@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Innovation.AR
@@ -9,10 +8,41 @@ namespace Innovation.AR
     {
 
         #region Properties
-        public string RadarAltitude { get; set; }
+        private string _radarAltitude;
+        public string RadarAltitude
+        {
+            get
+            {
+                return _radarAltitude;
+            }
+
+            set
+            {
+                if (value != _radarAltitude)
+                {
+                    _radarAltitude = String.Format("{0:0.0#} ft", value);
+                }
+            }
+        }
+
         public string MasterTime { get; set; }
 
-        public string TimeToDrop { get; set; }
+        private string _timeToDrop;
+        public string TimeToDrop
+        {
+            get
+            {
+                return _timeToDrop;
+            }
+
+            set
+            {
+                if (value != _timeToDrop)
+                {
+                    _timeToDrop = String.Format("{0:0.0#} sec", value);
+                }
+            }
+        }
 
 
         private string _colorValue;
@@ -34,8 +64,8 @@ namespace Innovation.AR
         #region Constructors
         public SituationAwareness()
         {
-            RadarAltitude = "2400.0 ft";
-            TimeToDrop = "8.0 sec";
+            RadarAltitude = "2400";
+            TimeToDrop = "8.2";
 
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), OnTimerTick);
 
