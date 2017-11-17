@@ -66,17 +66,17 @@ namespace Innovation.AR.Droid
             CrossTextToSpeech.Current.Speak(" HI LoadMaster");
             CrossTextToSpeech.Current.Speak(" Welcome to Cargo Handling Control System");
         }
-      public void ProcessText(string text)
+        public void ProcessText(string text)
         {
             var textLower = text.ToLower();
             Toast.MakeText(this, textLower, ToastLength.Long).Show();
             if (textLower.Contains("open bundle"))
-            {            
-                SetContentView(Resource.Layout.layout1);
+            {
+                SetContentView(Resource.Layout.bundlePage);
             }
             if (textLower.Contains("go back"))
             {
-               
+
                 StartActivity(typeof(MainActivity));
                 var intent = new Intent(this, typeof(MainActivity))
                    .SetFlags(ActivityFlags.ReorderToFront);
@@ -86,7 +86,7 @@ namespace Innovation.AR.Droid
 
             if ((textLower.Contains("set Air drop light")) || (textLower.Contains("set Air drop lights")) || (textLower.Contains("set lights")))
             {
-                
+
                 ARModel.GetInstance.AirdropPhase = 1;
                 ARModel.GetInstance.AirdropPhase = 2;
                 ARModel.GetInstance.AirdropPhase = 3;
@@ -94,77 +94,42 @@ namespace Innovation.AR.Droid
             var prjct = new List<string>() { "show cas","display crew alerting system message","display crew alerting system messages" ,"show crew alerting system message","show crew alerting system messages",
                                              "set Air drop light", "set Air drop lights","show Air drop light" ,"show Air drop lights",
                                              "show unit load device","show unit load devices","dispaly unit load device","dispaly unit load devices",};
-                       
-            if ((textLower.Contains("show crew alerting system message"))|| textLower.Contains("show crew alerting system messages") || textLower.Contains("dispaly crew alerting system messages") || textLower.Contains("dispaly crew alerting system message"))
+
+            if ((textLower.Contains("show crew alerting system message")) || textLower.Contains("show crew alerting system messages") || textLower.Contains("dispaly crew alerting system messages") || textLower.Contains("dispaly crew alerting system message"))
             {
                 ARModel.GetInstance.CasEnabled = true;
             }
             if ((textLower.Contains("show ulds")) || (textLower.Contains("dispaly load")) || (textLower.Contains("dispalay loads")) || (textLower.Contains("dispaly uld")) || (textLower.Contains("show unit load device")) || (textLower.Contains("show loads")))
-            {                
+            {
                 ARModel.GetInstance.UldEnabled = true;
-                               
+
             }
         }
-           
-     public override bool OnKeyLongPress(Keycode keyCode, KeyEvent e)
+
+        public override bool OnKeyLongPress(Keycode keyCode, KeyEvent e)
         {
             if (keyCode == Keycode.Headsethook)
             {
                 Toast.MakeText(this, "HeadSet Button Clicked", ToastLength.Long).Show();
                 ARModel.GetInstance.UldEnabled = false;
-                ARModel.GetInstance.CasEnabled = false;              
+                ARModel.GetInstance.CasEnabled = false;
             }
 
             return true;// base.OnKeyLongPress(keyCode, e);
-        }           
+        }
+
         public override bool OnKeyUp(Keycode keyCode, KeyEvent e)
         {
             if (keyCode == Keycode.Headsethook)
             {
-                
+
                 if (ButtonCount < 1)
                 {
                     TimeSpan tt = new TimeSpan(0, 0, 1);
                     Device.StartTimer(tt, TestHandleFunc);
-                    
+
                 }
                 ButtonCount++;
-                bool TestHandleFunc()
-                {
-                    if (ButtonCount > 1 && ButtonCount != 3 && ButtonCount != 4)
-                    {
-                       // Toast.MakeText(this, "Two Clicks", ToastLength.Long).Show();
-                        ARModel.GetInstance.CasEnabled = true;
-
-
-                    }
-                    if (ButtonCount == 3)
-                    {
-                        //action for Tripel button Click here
-                        CrossTextToSpeech.Current.Speak("SAFE MODE ON");
-                        CrossTextToSpeech.Current.Speak("AIRDROP FAIL");
-                        CrossTextToSpeech.Current.Speak("CHADCS FAIL");
-                        CrossTextToSpeech.Current.Speak("LVAD FAIL");
-                    }
-                    if (ButtonCount == 4)
-                    {
-                        //action for Reset                
-                        ARModel.GetInstance.UldEnabled = false;
-                        ARModel.GetInstance.CasEnabled = false;
-                    }
-                    else
-                    {
-                        if (ButtonCount == 1)
-                        {
-                            // action for Single Click here
-                            ARModel.GetInstance.UldEnabled = true;
-                        }
-                    }
-                    ButtonCount = 0;
-
-                    return false;
-                }
-
             }
 
             if (keyCode == Keycode.VolumeDown)
@@ -176,12 +141,12 @@ namespace Innovation.AR.Droid
                 intent.PutExtra(RecognizerIntent.ExtraMaxResults, 5);
                 sr.StartListening(intent);
                 //sr.SetRecognitionListener(RecognitionListener);
-                StartActivityForResult(intent, VOICE);             
+                StartActivityForResult(intent, VOICE);
             }
-            
+
             if (keyCode == Keycode.VolumeUp)
             {
-              
+
                 sr = SpeechRecognizer.CreateSpeechRecognizer(this);
                 sr.SetRecognitionListener(listener);
 
@@ -200,6 +165,42 @@ namespace Innovation.AR.Droid
             return base.OnKeyUp(keyCode, e);
         }
 
+
+        private bool TestHandleFunc()
+        {
+            if (ButtonCount > 1 && ButtonCount != 3 && ButtonCount != 4)
+            {
+                // Toast.MakeText(this, "Two Clicks", ToastLength.Long).Show();
+                ARModel.GetInstance.CasEnabled = true;
+
+
+            }
+            if (ButtonCount == 3)
+            {
+                //action for Tripel button Click here
+                CrossTextToSpeech.Current.Speak("SAFE MODE ON");
+                CrossTextToSpeech.Current.Speak("AIRDROP FAIL");
+                CrossTextToSpeech.Current.Speak("CHADCS FAIL");
+                CrossTextToSpeech.Current.Speak("LVAD FAIL");
+            }
+            if (ButtonCount == 4)
+            {
+                //action for Reset                
+                ARModel.GetInstance.UldEnabled = false;
+                ARModel.GetInstance.CasEnabled = false;
+            }
+            else
+            {
+                if (ButtonCount == 1)
+                {
+                    // action for Single Click here
+                    ARModel.GetInstance.UldEnabled = true;
+                }
+            }
+            ButtonCount = 0;
+
+            return false;
+        }
     }
 
 
