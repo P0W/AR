@@ -82,10 +82,18 @@ namespace Innovation.AR
                     {
                         var text = Encoding.UTF8.GetString(buf, 0, bytesRead);
 
-                        myModel = JsonConvert.DeserializeObject<DataModel>(text);
+                        // Ugly hack to avoid crash
+                        try
+                        {
+                            myModel = JsonConvert.DeserializeObject<DataModel>(text);
 
-                        await UpdateUI();
+                            await UpdateUI();
+                        }
+                        catch
+                        {
 
+                        }
+                        
                     }
 
                 }
