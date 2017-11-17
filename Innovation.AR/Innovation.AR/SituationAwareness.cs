@@ -21,6 +21,7 @@ namespace Innovation.AR
                 if (value != _radarAltitude)
                 {
                     _radarAltitude = String.Format("{0:0.0#} ft", value);
+                    PropertyChanged(this, new PropertyChangedEventArgs("RadarAltitude"));
                 }
             }
         }
@@ -40,6 +41,7 @@ namespace Innovation.AR
                 if (value != _timeToDrop)
                 {
                     _timeToDrop = String.Format("{0:0.0#} sec", value);
+                    PropertyChanged(this, new PropertyChangedEventArgs("TimeToDrop"));
                 }
             }
         }
@@ -64,8 +66,8 @@ namespace Innovation.AR
         #region Constructors
         public SituationAwareness()
         {
-            RadarAltitude = "2400";
-            TimeToDrop = "8.2";
+            _radarAltitude = "2400";
+            _timeToDrop = "8.2";
 
             Device.StartTimer(TimeSpan.FromMilliseconds(1000), OnTimerTick);
 

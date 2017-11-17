@@ -121,6 +121,7 @@ namespace Innovation.Simulation
             else
             {
                 myModel.casMsgList.Remove(ch.Text);
+                myModel.textToSpeech = "";
                 numCasEnabled--;
             }
 
@@ -178,6 +179,13 @@ namespace Innovation.Simulation
         private async void sendTextForSpeech_Click(object sender, EventArgs e)
         {
             myModel.textToSpeech = loadMasterTextToSpeech.Text;
+            await Send();
+        }
+
+        private async void uldEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var ch = sender as CheckBox;
+            myModel.uldEnabled = ch.Checked;
             await Send();
         }
     }

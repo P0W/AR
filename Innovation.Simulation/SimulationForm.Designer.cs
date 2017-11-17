@@ -51,13 +51,14 @@
             this.configueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tCPDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tcpPanel = new System.Windows.Forms.Panel();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tcpAddress = new System.Windows.Forms.TextBox();
-            this.tcpPort = new System.Windows.Forms.TextBox();
             this.tcpConfirm = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tcpPort = new System.Windows.Forms.TextBox();
+            this.tcpAddress = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.sendTextForSpeech = new System.Windows.Forms.Button();
+            this.uldEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -290,7 +291,7 @@
             // tCPDetailsToolStripMenuItem
             // 
             this.tCPDetailsToolStripMenuItem.Name = "tCPDetailsToolStripMenuItem";
-            this.tCPDetailsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tCPDetailsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.tCPDetailsToolStripMenuItem.Text = "TCP Details";
             this.tCPDetailsToolStripMenuItem.Click += new System.EventHandler(this.tCPDetailsToolStripMenuItem_Click);
             // 
@@ -303,6 +304,16 @@
             this.tcpPanel.Size = new System.Drawing.Size(200, 132);
             this.tcpPanel.TabIndex = 7;
             this.tcpPanel.Visible = false;
+            // 
+            // tcpConfirm
+            // 
+            this.tcpConfirm.Location = new System.Drawing.Point(69, 98);
+            this.tcpConfirm.Name = "tcpConfirm";
+            this.tcpConfirm.Size = new System.Drawing.Size(70, 28);
+            this.tcpConfirm.TabIndex = 1;
+            this.tcpConfirm.Text = "Confirm";
+            this.tcpConfirm.UseVisualStyleBackColor = true;
+            this.tcpConfirm.Click += new System.EventHandler(this.tcpConfirm_Click);
             // 
             // groupBox4
             // 
@@ -317,14 +328,21 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "TCP Details";
             // 
-            // label5
+            // tcpPort
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Address :";
+            this.tcpPort.Location = new System.Drawing.Point(65, 50);
+            this.tcpPort.Name = "tcpPort";
+            this.tcpPort.Size = new System.Drawing.Size(101, 20);
+            this.tcpPort.TabIndex = 2;
+            this.tcpPort.TextChanged += new System.EventHandler(this.tcpPort_TextChanged);
+            // 
+            // tcpAddress
+            // 
+            this.tcpAddress.Location = new System.Drawing.Point(64, 22);
+            this.tcpAddress.Name = "tcpAddress";
+            this.tcpAddress.Size = new System.Drawing.Size(102, 20);
+            this.tcpAddress.TabIndex = 2;
+            this.tcpAddress.TextChanged += new System.EventHandler(this.tcpAddress_TextChanged);
             // 
             // label6
             // 
@@ -335,31 +353,14 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "Port :";
             // 
-            // tcpAddress
+            // label5
             // 
-            this.tcpAddress.Location = new System.Drawing.Point(64, 22);
-            this.tcpAddress.Name = "tcpAddress";
-            this.tcpAddress.Size = new System.Drawing.Size(102, 20);
-            this.tcpAddress.TabIndex = 2;
-            this.tcpAddress.TextChanged += new System.EventHandler(this.tcpAddress_TextChanged);
-            // 
-            // tcpPort
-            // 
-            this.tcpPort.Location = new System.Drawing.Point(65, 50);
-            this.tcpPort.Name = "tcpPort";
-            this.tcpPort.Size = new System.Drawing.Size(101, 20);
-            this.tcpPort.TabIndex = 2;
-            this.tcpPort.TextChanged += new System.EventHandler(this.tcpPort_TextChanged);
-            // 
-            // tcpConfirm
-            // 
-            this.tcpConfirm.Location = new System.Drawing.Point(69, 98);
-            this.tcpConfirm.Name = "tcpConfirm";
-            this.tcpConfirm.Size = new System.Drawing.Size(70, 28);
-            this.tcpConfirm.TabIndex = 1;
-            this.tcpConfirm.Text = "Confirm";
-            this.tcpConfirm.UseVisualStyleBackColor = true;
-            this.tcpConfirm.Click += new System.EventHandler(this.tcpConfirm_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Address :";
             // 
             // sendTextForSpeech
             // 
@@ -371,11 +372,23 @@
             this.sendTextForSpeech.UseVisualStyleBackColor = true;
             this.sendTextForSpeech.Click += new System.EventHandler(this.sendTextForSpeech_Click);
             // 
+            // uldEnabledCheckBox
+            // 
+            this.uldEnabledCheckBox.AutoSize = true;
+            this.uldEnabledCheckBox.Location = new System.Drawing.Point(23, 160);
+            this.uldEnabledCheckBox.Name = "uldEnabledCheckBox";
+            this.uldEnabledCheckBox.Size = new System.Drawing.Size(143, 17);
+            this.uldEnabledCheckBox.TabIndex = 10;
+            this.uldEnabledCheckBox.Text = "Show Cargo/Ramp View";
+            this.uldEnabledCheckBox.UseVisualStyleBackColor = true;
+            this.uldEnabledCheckBox.CheckedChanged += new System.EventHandler(this.uldEnabledCheckBox_CheckedChanged);
+            // 
             // SimulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 164);
+            this.ClientSize = new System.Drawing.Size(502, 183);
+            this.Controls.Add(this.uldEnabledCheckBox);
             this.Controls.Add(this.sendTextForSpeech);
             this.Controls.Add(this.tcpPanel);
             this.Controls.Add(this.loadMasterTextToSpeech);
@@ -434,6 +447,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button tcpConfirm;
         private System.Windows.Forms.Button sendTextForSpeech;
+        private System.Windows.Forms.CheckBox uldEnabledCheckBox;
     }
 }
 
