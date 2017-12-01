@@ -11,17 +11,17 @@
         <ResourceDictionary>
             <Style x:Key="labelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="Yellow" />
-                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="RotationY" Value="180" />
+                <Setter Property="RotationY" Value="0" />
             </Style>
             <Style x:Key="fieldStyle" TargetType="Label">
                 <Setter Property="TextColor">
                     <OnPlatform x:TypeArguments="Color" iOS="White" Android="White" WinPhone="White" />
                 </Setter>
-                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="RotationY" Value="180" />
+                <Setter Property="RotationY" Value="0" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -87,10 +87,10 @@
                 </Grid.RowDefinitions>
 
 
-                <Label Text="CHADCS FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
-                <Label Text="LVAD FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
-                <Label Text="AIRDROP FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
-                <Label Text="SAFE MODE ON" Style="{StaticResource labelStyle}" FontSize="Small"  BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
+                <Label Text="CHADCS FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  Opacity="0.4" BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
+                <Label Text="LVAD FAIL" Style="{StaticResource labelStyle}" FontSize="Small"    Opacity="0.4" BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
+                <Label Text="AIRDROP FAIL" Style="{StaticResource labelStyle}" FontSize="Small" Opacity="0.4" BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
+                <Label Text="SAFE MODE ON" Style="{StaticResource labelStyle}" FontSize="Small" Opacity="0.4" BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
             </Grid>
 
             <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Padding="20, -20, 0, 0" IsVisible="{Binding UldEnabled}">
@@ -102,16 +102,16 @@
                     <ColumnDefinition Width="20*" />
                 </Grid.ColumnDefinitions>
 
-                <BoxView Grid.Column="0" HorizontalOptions="FillAndExpand" Color="Blue"  />
+                <BoxView Grid.Column="0" HorizontalOptions="FillAndExpand" Color="Blue" Opacity="0.5" />
                 <Label Grid.Column="0" Text="Pallet -1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
 
-                <BoxView Grid.Column="1" HorizontalOptions="FillAndExpand" Color="Gray" />
+                <BoxView Grid.Column="1" HorizontalOptions="FillAndExpand" Color="Gray" Opacity="0.5"/>
                 <Label Grid.Column="1" Text="Bulk-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
 
-                <BoxView Grid.Column="2" HorizontalOptions="FillAndExpand" Color="Green" />
+                <BoxView Grid.Column="2" HorizontalOptions="FillAndExpand" Color="Green" Opacity="0.5"/>
                 <Label Grid.Column="2" Text="CDS-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
 
-                <BoxView Grid.Column="3" HorizontalOptions="FillAndExpand" Color="BurlyWood" />
+                <BoxView Grid.Column="3" HorizontalOptions="FillAndExpand" Color="BurlyWood" Opacity="0.5" />
                 <Label Grid.Column="3" Text="Platform-1" HorizontalTextAlignment="Center" Style="{StaticResource fieldStyle}" BackgroundColor="Transparent" />
 
                 <BoxView Grid.Column="4" HorizontalOptions="FillAndExpand" Color="Blue" />

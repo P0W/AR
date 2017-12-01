@@ -118,7 +118,7 @@ namespace Innovation.AR
 
         protected async override void OnAppearing()
         {
-            //await CreateJsonTcpListener();
+            await CreateJsonTcpListener();
         }
     }
 }

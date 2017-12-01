@@ -104,7 +104,7 @@ namespace Innovation.AR
 
         private void ChangeAirdropPhase(object sender, SKTouchEventArgs e)
         {
-            AirdropPhase = (AirdropPhase + 1) % 4;
+            //AirdropPhase = (AirdropPhase + 1) % 4;
         }
     }
 }

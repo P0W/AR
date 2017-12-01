@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
+
+using System.Collections.Generic;
+using Urho.HoloLens;
 
 namespace Innovation.AR.UWP
 {
@@ -37,7 +33,7 @@ namespace Innovation.AR.UWP
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected  override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -73,7 +69,24 @@ namespace Innovation.AR.UWP
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+
+            if( Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                
+                if( titleBar != null )
+                {
+                    titleBar.BackgroundColor = Colors.Transparent;
+                }
+            }
+
+            
+
         }
+
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

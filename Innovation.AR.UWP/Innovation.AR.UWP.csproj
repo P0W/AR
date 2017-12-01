@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gestures.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -144,6 +145,9 @@
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
       <Version>1.59.2</Version>
+    </PackageReference>
+    <PackageReference Include="UrhoSharp.HoloLens">
+      <Version>1.4.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>2.5.0.91635</Version>
