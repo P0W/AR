@@ -37,17 +37,19 @@ namespace Innovation.AR
 
         public MainPage()
         {
-            InitializeComponent();
+            
 
             NavigationPage.SetHasNavigationBar(this, false);
 
             BindingContext = ARModel.GetInstance;
 
             // populate picker with available colors
-            foreach (string colorName in colorDict.Keys)
-            {
-                settingsColorPicker.Items.Add(colorName);
-            }
+            //foreach (string colorName in colorDict.Keys)
+            //{
+            //    settingsColorPicker.Items.Add(colorName);
+            //}
+
+            InitializeComponent();
         }
 
         private void TapColorPicker_Tapped(object sender, EventArgs e)
@@ -116,7 +118,7 @@ namespace Innovation.AR
 
         protected async override void OnAppearing()
         {
-            await CreateJsonTcpListener();
+            //await CreateJsonTcpListener();
         }
     }
 }

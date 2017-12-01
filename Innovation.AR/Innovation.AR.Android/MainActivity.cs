@@ -2,7 +2,6 @@
 using System;
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
@@ -10,13 +9,6 @@ using Android.Speech;
 using System.Collections.Generic;
 using Plugin.TextToSpeech;
 using Android.Content;
-using Android.Speech.Tts;
-using static Android.App.Application;
-using Android.Text;
-using Android.Media;
-using System.Text;
-using SkiaSharp.Views.Forms;
-using SkiaSharp;
 using Xamarin.Forms;
 
 
@@ -63,8 +55,8 @@ namespace Innovation.AR.Droid
 
             ARModel.GetInstance.CasEnabled = false;
             ARModel.GetInstance.UldEnabled = false;
-            CrossTextToSpeech.Current.Speak(" HI LoadMaster");
-            CrossTextToSpeech.Current.Speak(" Welcome to Cargo Handling Control System");
+            //CrossTextToSpeech.Current.Speak(" HI LoadMaster");
+            //CrossTextToSpeech.Current.Speak(" Welcome to Cargo Handling Control System");
         }
         public void ProcessText(string text)
         {
@@ -162,7 +154,7 @@ namespace Innovation.AR.Droid
                 StartActivityForResult(intent, VOICE);
             }
 
-            return base.OnKeyUp(keyCode, e);
+            return true; /* base.OnKeyUp(keyCode, e); */
         }
 
 
@@ -178,16 +170,18 @@ namespace Innovation.AR.Droid
             if (ButtonCount == 3)
             {
                 //action for Tripel button Click here
-                CrossTextToSpeech.Current.Speak("SAFE MODE ON");
-                CrossTextToSpeech.Current.Speak("AIRDROP FAIL");
-                CrossTextToSpeech.Current.Speak("CHADCS FAIL");
-                CrossTextToSpeech.Current.Speak("LVAD FAIL");
+                //CrossTextToSpeech.Current.Speak("SAFE MODE ON");
+                //CrossTextToSpeech.Current.Speak("AIRDROP FAIL");
+                //CrossTextToSpeech.Current.Speak("CHADCS FAIL");
+                //CrossTextToSpeech.Current.Speak("LVAD FAIL");
+                ARModel.GetInstance.UldEnabled = false;
+                ARModel.GetInstance.CasEnabled = false;
             }
             if (ButtonCount == 4)
             {
                 //action for Reset                
-                ARModel.GetInstance.UldEnabled = false;
-                ARModel.GetInstance.CasEnabled = false;
+                //ARModel.GetInstance.UldEnabled = false;
+                //ARModel.GetInstance.CasEnabled = false;
             }
             else
             {

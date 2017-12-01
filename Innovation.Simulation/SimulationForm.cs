@@ -111,14 +111,14 @@ namespace Innovation.Simulation
 
         private async void casEnabled(CheckBox ch)
         {
-            if (ch.Checked)
+            if (ch.Checked && !myModel.casMsgList.Exists(x => x == ch.Text))
             {
                 myModel.casMsgList.Add(ch.Text);
                 myModel.textToSpeech = ch.Text;
                 numCasEnabled++;
 
             }
-            else
+            else if (myModel.casMsgList.Exists(x => x == ch.Text))
             {
                 myModel.casMsgList.Remove(ch.Text);
                 myModel.textToSpeech = "";
