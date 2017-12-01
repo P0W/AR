@@ -2,6 +2,18 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
-    <UseEmulator>true</UseEmulator>
+    <UseEmulator>false</UseEmulator>
+    <CreateCleanLayout>true</CreateCleanLayout>
+    <DeployOptionalPackages>false</DeployOptionalPackages>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <AuthenticationMode>None</AuthenticationMode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <UseEmulator>false</UseEmulator>
+    <DeviceId>C0E5F7CA-3595-E167-7DFE-3D367F6E3B3E</DeviceId>
+    <DeployOptionalPackages>true</DeployOptionalPackages>
+    <CreateCleanLayout>true</CreateCleanLayout>
+    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <RemoteDebugMachine>10.0.14393.1358.psrivast</RemoteDebugMachine>
   </PropertyGroup>
 </Project>
