@@ -1,13 +1,18 @@
 ﻿using Newtonsoft.Json;
+
 using Plugin.TextToSpeech;
 using Sockets.Plugin;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Plugin.SpeechRecognition;
+using System.Diagnostics;
 
 namespace Innovation.AR
 {
@@ -30,14 +35,19 @@ namespace Innovation.AR
 
         };
 
+        static private volatile string greetText = "";
 
         private TcpSocketListener jsonTcpListener = null;
-        private DataModel myModel = null;
+        private DataModel myModel = new DataModel();
+        private List<string> oldList = new List<string>();
 
+        private ISpeechRecognizer speech;
+
+        IObservable<string> listener = null;
 
         public MainPage()
         {
-            
+
 
             NavigationPage.SetHasNavigationBar(this, false);
 
@@ -50,6 +60,95 @@ namespace Innovation.AR
             //}
 
             InitializeComponent();
+
+            // Ugly way to update UI, this is work-around to avoid update of ObservableCollection on Async Task
+            Device.StartTimer(TimeSpan.FromMilliseconds(500), UpdateView);
+
+            //string[] keywords = { "test", "hide" };
+            //CrossSpeechRecognition.Current.ListenForFirstKeyword(keywords).Subscribe(firstKeywordHeard =>
+
+            //{
+            //    ARModel.GetInstance.UldEnabled = true;
+            //}
+
+            //);
+
+            speech = CrossSpeechRecognition.Current;
+            listener = speech.ListenUntilPause();
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.UWP:
+                    Device.StartTimer(TimeSpan.FromMilliseconds(50), ListenPhrase);
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+
+        private bool ListenPhrase()
+        {
+
+            try
+            {
+                listener.Subscribe(phrase =>
+                {
+                    Debug.WriteLine("Phrases Retuned :" + phrase);
+                    var msg = phrase.Trim().ToLower();
+                    if (msg.Contains("show cargos") || msg.Contains("show car goes") )
+                    {
+                        ARModel.GetInstance.UldEnabled = true;
+                    }
+                    else if (msg.Contains("clear cargos") || msg.Contains("clear car goes"))
+                    {
+                        ARModel.GetInstance.UldEnabled = false;
+                    }
+
+                    else if (msg.Contains("show messages"))
+                    {
+                        ARModel.GetInstance.CasEnabled = true;
+                    }
+                    else if (msg.Contains("clear messages"))
+                    {
+                        ARModel.GetInstance.CasEnabled = false;
+                    }
+
+                });
+            }
+            catch
+            {
+                Debug.WriteLine("Exception While Listening Phrase");
+            }
+            return true;
+        }
+
+        private bool UpdateView()
+        {
+            try
+            {
+
+                if (!Enumerable.SequenceEqual(oldList.OrderBy(t => t), myModel.casMsgList.OrderBy(t => t)))
+                {
+                    ARModel.GetInstance.CasList.Clear();
+                    foreach (string msg in myModel.casMsgList)
+                    {
+                        ARModel.GetInstance.CasList.Add(new CasMessage(msg.Trim()));
+                    }
+
+                    oldList = myModel.casMsgList;
+                }
+            }
+
+            catch
+            {
+
+            }
+
+
+            return true;
         }
 
         private void TapColorPicker_Tapped(object sender, EventArgs e)
@@ -62,6 +161,8 @@ namespace Innovation.AR
             var picker = (Picker)sender;
             ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
         }
+
+
 
 
         private async Task CreateJsonTcpListener()
@@ -90,12 +191,15 @@ namespace Innovation.AR
                             myModel = JsonConvert.DeserializeObject<DataModel>(text);
 
                             await UpdateUI();
+
+
                         }
                         catch
                         {
-
+                            myModel.textToSpeech = "";
                         }
-                        
+
+
                     }
 
                 }
@@ -113,7 +217,11 @@ namespace Innovation.AR
             ARModel.GetInstance.SituationAwarenessContext.TimeToDrop = myModel.timeToDrop;
             ARModel.GetInstance.SituationAwarenessContext.RadarAltitude = myModel.radarAltitude;
 
-            await CrossTextToSpeech.Current.Speak(myModel.textToSpeech);
+            greetText = myModel.textToSpeech.Trim();
+            if (greetText != "")
+            {
+                await CrossTextToSpeech.Current.Speak(greetText, pitch: 1.5f);
+            }
         }
 
         protected async override void OnAppearing()

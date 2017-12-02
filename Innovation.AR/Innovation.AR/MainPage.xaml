@@ -78,20 +78,24 @@
 
             <local:AirdropLights Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" Padding="20,0,0,0" AirdropPhase="{ Binding AirdropPhase}" />
 
-            <Grid Grid.Row="3" Grid.Column="0"  Padding="20, 0, 0, 0" IsVisible="{Binding CasEnabled}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25*" />
-                    <RowDefinition Height="25*" />
-                    <RowDefinition Height="25*" />
-                    <RowDefinition Height="25*" />
-                </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding CasList}" Grid.Row="3" Grid.Column="0"   IsVisible="{Binding CasEnabled}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
 
-
-                <Label Text="CHADCS FAIL" Style="{StaticResource labelStyle}" FontSize="Small"  Opacity="0.4" BackgroundColor="Yellow" TextColor="Black" Grid.Row="0" />
-                <Label Text="LVAD FAIL" Style="{StaticResource labelStyle}" FontSize="Small"    Opacity="0.4" BackgroundColor="Yellow" TextColor="Black" Grid.Row="1"/>
-                <Label Text="AIRDROP FAIL" Style="{StaticResource labelStyle}" FontSize="Small" Opacity="0.4" BackgroundColor="Red" TextColor="White" Grid.Row="2"/>
-                <Label Text="SAFE MODE ON" Style="{StaticResource labelStyle}" FontSize="Small" Opacity="0.4" BackgroundColor="Black" TextColor="White" Grid.Row="3"/>
-            </Grid>
+                        <ViewCell>
+                            <StackLayout Padding="10, 2, 0, 0"  HorizontalOptions="Fill">
+                                <Label Text="{Binding CasMessageText}" 
+                                           Style="{StaticResource labelStyle}"
+                                           FontSize="Small"  
+                                           HorizontalTextAlignment="Center"
+                                           Opacity="0.4" 
+                                           TextColor="{Binding CasMessageTextColor}"
+                                           BackgroundColor="{Binding CasMessageTextBgColor}"  />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Padding="20, -20, 0, 0" IsVisible="{Binding UldEnabled}">
                 <Grid.ColumnDefinitions>

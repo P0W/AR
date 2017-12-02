@@ -10,7 +10,6 @@ namespace Innovation.AR.UWP
     public sealed partial class MainPage
     {
 
-        Gestures ges = null;
         public MainPage()
         {
             this.InitializeComponent();

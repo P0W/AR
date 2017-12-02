@@ -16,7 +16,7 @@ namespace Innovation.Simulation
         private DataModel myModel = new DataModel();
         private int numCasEnabled = 0;
 
-        private string tcpserverAddress = "127.0.0.1";
+        private string tcpserverAddress = "192.168.0.6";
         private int tcpServerPort = 12000;
 
         public SimulationForm()
@@ -63,6 +63,7 @@ namespace Innovation.Simulation
             if (r.Checked)
             {
                 myModel.airdropLight = 1;
+                myModel.textToSpeech = "";
                 await Send();
             }
         }
@@ -73,6 +74,7 @@ namespace Innovation.Simulation
             if (r.Checked)
             {
                 myModel.airdropLight = 2;
+                myModel.textToSpeech = "";
                 await Send();
             }
         }
@@ -83,18 +85,21 @@ namespace Innovation.Simulation
             if (r.Checked)
             {
                 myModel.airdropLight = 3;
+                myModel.textToSpeech = "";
                 await Send();
             }
         }
 
         private async void radarAltitude_TextChanged(object sender, EventArgs e)
         {
+            myModel.textToSpeech = "";
             myModel.radarAltitude = radarAltitude.Text;
             await Send();
         }
 
         private async void timeToDrop_TextChanged(object sender, EventArgs e)
         {
+            myModel.textToSpeech = "";
             myModel.timeToDrop = timeToDrop.Text;
             await Send();
         }
@@ -105,6 +110,7 @@ namespace Innovation.Simulation
             if (r.Checked)
             {
                 myModel.airdropLight = 0;
+                myModel.textToSpeech = "";
                 await Send();
             }
         }
@@ -185,6 +191,7 @@ namespace Innovation.Simulation
         private async void uldEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             var ch = sender as CheckBox;
+            myModel.textToSpeech = "";
             myModel.uldEnabled = ch.Checked;
             await Send();
         }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Innovation.AR
@@ -112,7 +113,6 @@ namespace Innovation.AR
             }
         }
 
-
-
+        public ObservableCollection<CasMessage> CasList { get; set; } = new ObservableCollection<CasMessage>();
     }
 }
