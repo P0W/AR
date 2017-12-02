@@ -64,21 +64,11 @@ namespace Innovation.AR
             // Ugly way to update UI, this is work-around to avoid update of ObservableCollection on Async Task
             Device.StartTimer(TimeSpan.FromMilliseconds(500), UpdateView);
 
-            //string[] keywords = { "test", "hide" };
-            //CrossSpeechRecognition.Current.ListenForFirstKeyword(keywords).Subscribe(firstKeywordHeard =>
-
-            //{
-            //    ARModel.GetInstance.UldEnabled = true;
-            //}
-
-            //);
-
-            speech = CrossSpeechRecognition.Current;
-            listener = speech.ListenUntilPause();
-
             switch (Device.RuntimePlatform)
             {
                 case Device.UWP:
+                    speech = CrossSpeechRecognition.Current;
+                    listener = speech.ListenUntilPause();
                     Device.StartTimer(TimeSpan.FromMilliseconds(50), ListenPhrase);
                     break;
                 default:
@@ -98,7 +88,7 @@ namespace Innovation.AR
                 {
                     Debug.WriteLine("Phrases Retuned :" + phrase);
                     var msg = phrase.Trim().ToLower();
-                    if (msg.Contains("show cargos") || msg.Contains("show car goes") )
+                    if (msg.Contains("show cargos") || msg.Contains("show car goes"))
                     {
                         ARModel.GetInstance.UldEnabled = true;
                     }
@@ -147,7 +137,6 @@ namespace Innovation.AR
 
             }
 
-
             return true;
         }
 
@@ -161,9 +150,6 @@ namespace Innovation.AR
             var picker = (Picker)sender;
             ARModel.GetInstance.SituationAwarenessContext.ColorValue = colorDict[picker.Items[picker.SelectedIndex]];
         }
-
-
-
 
         private async Task CreateJsonTcpListener()
         {

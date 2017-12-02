@@ -13,7 +13,9 @@
                 <Setter Property="TextColor" Value="Yellow" />
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="RotationY" Value="0" />
+                <Setter Property="RotationY" >
+                    <OnPlatform x:TypeArguments="x:Double"  Android="180"  Default="0"  />
+                </Setter>
             </Style>
             <Style x:Key="fieldStyle" TargetType="Label">
                 <Setter Property="TextColor">
@@ -21,7 +23,9 @@
                 </Setter>
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="RotationY" Value="0" />
+                <Setter Property="RotationY" >
+                    <OnPlatform x:TypeArguments="x:Double"  Android="180"  Default="0"  />
+                </Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -78,19 +82,18 @@
 
             <local:AirdropLights Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" Padding="20,0,0,0" AirdropPhase="{ Binding AirdropPhase}" />
 
-            <ListView ItemsSource="{Binding CasList}" Grid.Row="3" Grid.Column="0"   IsVisible="{Binding CasEnabled}" >
+            <ListView ItemsSource="{Binding CasList}" Grid.Row="3" Grid.Column="0"   IsVisible="{Binding CasEnabled}"  HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
 
                         <ViewCell>
-                            <StackLayout Padding="10, 2, 0, 0"  HorizontalOptions="Fill">
+                            <StackLayout  Padding="10,2,0,0" HorizontalOptions="Fill" >
                                 <Label Text="{Binding CasMessageText}" 
                                            Style="{StaticResource labelStyle}"
                                            FontSize="Small"  
                                            HorizontalTextAlignment="Center"
-                                           Opacity="0.4" 
                                            TextColor="{Binding CasMessageTextColor}"
-                                           BackgroundColor="{Binding CasMessageTextBgColor}"  />
+                                           BackgroundColor="{Binding CasMessageTextBgColor}" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
