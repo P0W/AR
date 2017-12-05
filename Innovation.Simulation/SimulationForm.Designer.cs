@@ -59,6 +59,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.sendTextForSpeech = new System.Windows.Forms.Button();
             this.uldEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.clearAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -383,11 +384,23 @@
             this.uldEnabledCheckBox.UseVisualStyleBackColor = true;
             this.uldEnabledCheckBox.CheckedChanged += new System.EventHandler(this.uldEnabledCheckBox_CheckedChanged);
             // 
+            // clearAll
+            // 
+            this.clearAll.AutoSize = true;
+            this.clearAll.Location = new System.Drawing.Point(227, 160);
+            this.clearAll.Name = "clearAll";
+            this.clearAll.Size = new System.Drawing.Size(64, 17);
+            this.clearAll.TabIndex = 11;
+            this.clearAll.Text = "Clear All";
+            this.clearAll.UseVisualStyleBackColor = true;
+            this.clearAll.CheckedChanged += new System.EventHandler(this.clearAll_CheckedChanged);
+            // 
             // SimulationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 183);
+            this.Controls.Add(this.clearAll);
             this.Controls.Add(this.uldEnabledCheckBox);
             this.Controls.Add(this.sendTextForSpeech);
             this.Controls.Add(this.tcpPanel);
@@ -448,6 +461,7 @@
         private System.Windows.Forms.Button tcpConfirm;
         private System.Windows.Forms.Button sendTextForSpeech;
         private System.Windows.Forms.CheckBox uldEnabledCheckBox;
+        private System.Windows.Forms.CheckBox clearAll;
     }
 }
 

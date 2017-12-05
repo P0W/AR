@@ -62,14 +62,16 @@ namespace Innovation.AR
             InitializeComponent();
 
             // Ugly way to update UI, this is work-around to avoid update of ObservableCollection on Async Task
-            Device.StartTimer(TimeSpan.FromMilliseconds(500), UpdateView);
+            // Device.StartTimer(TimeSpan.FromMilliseconds(500), UpdateView);
 
             switch (Device.RuntimePlatform)
             {
                 case Device.UWP:
                     speech = CrossSpeechRecognition.Current;
                     listener = speech.ListenUntilPause();
-                    Device.StartTimer(TimeSpan.FromMilliseconds(50), ListenPhrase);
+                    Device.StartTimer(TimeSpan.FromMilliseconds(10), ListenPhrase);
+
+
                     break;
                 default:
                     break;
@@ -88,7 +90,7 @@ namespace Innovation.AR
                 {
                     Debug.WriteLine("Phrases Retuned :" + phrase);
                     var msg = phrase.Trim().ToLower();
-                    if (msg.Contains("show cargos") || msg.Contains("show car goes"))
+                    if (msg.Contains("show cargos") || msg.Contains("show car goes") || msg.Contains("display cargos") || msg.Contains("display car goes"))
                     {
                         ARModel.GetInstance.UldEnabled = true;
                     }
@@ -97,13 +99,21 @@ namespace Innovation.AR
                         ARModel.GetInstance.UldEnabled = false;
                     }
 
-                    else if (msg.Contains("show messages"))
+                    else if (msg.Contains("show messages") || msg.Contains("display messages"))
                     {
                         ARModel.GetInstance.CasEnabled = true;
                     }
                     else if (msg.Contains("clear messages"))
                     {
                         ARModel.GetInstance.CasEnabled = false;
+                    }
+                    else if (msg.Contains("show all") || msg.Contains("display all"))
+                    {
+                        ARModel.GetInstance.ShowAll = true;
+                    }
+                    else if (msg.Contains("clear all"))
+                    {
+                        ARModel.GetInstance.ShowAll = false;
                     }
 
                 });
@@ -176,7 +186,13 @@ namespace Innovation.AR
                         {
                             myModel = JsonConvert.DeserializeObject<DataModel>(text);
 
-                            await UpdateUI();
+
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                UpdateUI();
+                                UpdateView();
+                            });
+
 
 
                         }
@@ -195,18 +211,19 @@ namespace Innovation.AR
             await jsonTcpListener.StartListeningAsync(speechListenPort);
         }
 
-        private async Task UpdateUI()
+        private void UpdateUI()
         {
             ARModel.GetInstance.CasEnabled = myModel.casEnabled;
             ARModel.GetInstance.AirdropPhase = myModel.airdropLight;
             ARModel.GetInstance.UldEnabled = myModel.uldEnabled;
             ARModel.GetInstance.SituationAwarenessContext.TimeToDrop = myModel.timeToDrop;
             ARModel.GetInstance.SituationAwarenessContext.RadarAltitude = myModel.radarAltitude;
+            ARModel.GetInstance.ShowAll = !myModel.clearAll;
 
             greetText = myModel.textToSpeech.Trim();
             if (greetText != "")
             {
-                await CrossTextToSpeech.Current.Speak(greetText, pitch: 1.5f);
+                CrossTextToSpeech.Current.Speak(greetText, pitch: 1.5f);
             }
         }
 

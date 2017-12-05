@@ -33,7 +33,7 @@
     <ContentPage.Content>
 
 
-        <Grid >
+        <Grid IsVisible="{Binding ShowAll}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25*"  />
                 <RowDefinition Height="25*"/>

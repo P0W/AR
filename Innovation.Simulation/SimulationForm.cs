@@ -195,6 +195,14 @@ namespace Innovation.Simulation
             myModel.uldEnabled = ch.Checked;
             await Send();
         }
+
+        private async void clearAll_CheckedChanged(object sender, EventArgs e)
+        {
+            var ch = sender as CheckBox;
+            myModel.clearAll = ch.Checked;
+            myModel.textToSpeech = "";
+            await Send();
+        }
     }
 
 }

@@ -55,8 +55,8 @@ namespace Innovation.AR
             uldEnabled = false;
             casEnabled = false;
             airdropLight = 0;
-            radarAltitude = "0 ft";
-            timeToDrop = "0.0 sec";
+            radarAltitude = "0";
+            timeToDrop = "0.0";
             textToSpeech = "";
 
             casMsgList = new List<string>();
@@ -74,5 +74,7 @@ namespace Innovation.AR
         public string textToSpeech { get; set; }
 
         public List<string> casMsgList { get; set; }
+
+        public bool clearAll { get; set; }
     }
 }

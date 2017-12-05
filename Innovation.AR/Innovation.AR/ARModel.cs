@@ -20,6 +20,7 @@ namespace Innovation.AR
             _airdropPhase = 0;
             _uldEnabled = true;
             _casEnabled = true;
+            _showAll = true;
             Initialise();
         }
 
@@ -93,6 +94,24 @@ namespace Innovation.AR
                 }
             }
         }
+
+        private bool _showAll;
+        public bool ShowAll
+        {
+            get
+            {
+                return _showAll;
+            }
+            set
+            {
+                if (value != _showAll)
+                {
+                    _showAll = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         public static ARModel GetInstance

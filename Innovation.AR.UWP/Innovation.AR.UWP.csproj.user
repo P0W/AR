@@ -9,11 +9,11 @@
     <AuthenticationMode>None</AuthenticationMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <UseEmulator>false</UseEmulator>
-    <DeviceId>C0E5F7CA-3595-E167-7DFE-3D367F6E3B3E</DeviceId>
+    <UseEmulator>true</UseEmulator>
+    <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
     <DeployOptionalPackages>true</DeployOptionalPackages>
     <CreateCleanLayout>true</CreateCleanLayout>
-    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
     <RemoteDebugMachine>10.0.14393.1358.psrivast</RemoteDebugMachine>
   </PropertyGroup>
 </Project>
